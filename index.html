@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATAVA Digital Services & Trading - All-in-One Dashboard</title>
+    <!-- Tailwind CSS for modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col justify-between">
+
+    <!-- Header / Navbar -->
+    <header class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <!-- Official Logo -->
+                <img src="image_6929e0.png" alt="ATAVA Logo" class="h-10 w-auto rounded object-contain">
+                <div>
+                    <h1 class="font-bold text-lg text-slate-900 leading-tight">ATAVA Digital Services & Trading</h1>
+                    <p class="text-xs text-slate-500 uppercase tracking-wider">One Stop Digital Hub</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-3">
+                <button onclick="alert('Ready to install as PWA/App!')" class="hidden sm:flex items-center space-x-2 bg-slate-800 text-white text-xs px-3 py-2 rounded-lg hover:bg-slate-700 transition">
+                    <i class="fa-solid fa-download"></i>
+                    <span>Install App</span>
+                </button>
+                <button onclick="shareDashboard()" class="flex items-center space-x-2 bg-blue-600 text-white text-xs px-3 py-2 rounded-lg hover:bg-blue-700 transition">
+                    <i class="fa-solid fa-share-nodes"></i>
+                    <span>Share</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full">
+        
+        <!-- Title & Search Bar Section -->
+        <div class="text-center mb-8">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">All-in-One Business & Service Dashboard</h2>
+            <div class="max-w-xl mx-auto relative">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </span>
+                <input type="text" id="searchInput" onkeyup="filterLinks()" placeholder="Quickly find your link (e.g., Panchayat, ICP, Agreement)..." 
+                    class="w-full pl-11 pr-4 py-3 bg-white border border-slate-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+            </div>
+        </div>
+
+        <!-- Cards Grid Container -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="categoriesContainer">
+
+            <!-- Card 1: Kerala State Services -->
+            <div class="service-card bg-white rounded-2xl shadow-sm border border-slate-200 p-5 flex flex-col">
+                <div class="flex items-center space-x-3 mb-4 pb-3 border-b border-slate-100">
+                    <div class="bg-blue-50 text-blue-600 p-2.5 rounded-xl text-lg">
+                        <i class="fa-solid fa-landmark"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-900 text-base">KERALA STATE SERVICES</h3>
+                        <p class="text-xs text-slate-500">Local & Government Portals</p>
+                    </div>
+                </div>
+                <div class="space-y-2 flex-grow link-list">
+                    <a href="https://lsgkerala.gov.in" target="_blank" class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 hover:bg-blue-50 hover:text-blue-700 transition text-sm font-medium border border-slate-100 group">
+                        <span>Panchayat Portal</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-blue-600"></i>
+                    </a>
+                    <a href="https://village.kerala.gov.in" target="_blank" class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 hover:bg-blue-50 hover:text-blue-700 transition text-sm font-medium border border-slate-100 group">
+                        <span>Village Office Services</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-blue-600"></i>
+                    </a>
+                    <a href="https://akshaya.kerala.gov.in" target="_blank" class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 hover:bg-blue-50 hover:text-blue-700 transition text-sm font-medium border border-slate-100 group">
+                        <span>Akshaya Login</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-blue-600"></i>
+                    </a>
+                    <a href="https://revenue.kerala.gov.in" target="_blank" class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 hover:bg-blue-50 hover:text-blue-700 transition text-sm font-medium border border-slate-100 group">
+                        <span>Revenue Department</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-blue-600"></i>
+                    </a>
+                    <a href="https://keralaregistration.gov.in" target="_blank" class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 hover:bg-blue-50 hover:text-blue-700 transition text-sm font-medium border border-slate-100 group">
+                        <span>Registration Portal</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-blue-600"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card 2: UAE Government Services & Visa -->
+            <div class="service-card bg-white rounded-2xl shadow-sm border border-slate-200 p-5 flex flex-col">
+                <div class="flex items-center space-x-3 mb-4 pb-3 border-b border-slate-100">
+                    <div class="bg-emerald-50 text-emerald-600 p-2.5 rounded-xl text-lg">
+                        <i class="fa-solid fa-passport"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-900 text-base">UAE GOVERNMENT SERVICES & VISA</h3>
+                        <p class="text-xs text-slate-500">Federal & Labour Portals</p>
+                    </div>
+                </div>
+                <div class="space-y-2 flex-grow link-list">
+                    <a href="https://smartservices.icp.gov.ae" target="_blank" class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 hover:bg-emerald-50 hover:text-emerald-700 transition text-sm font-medium border border-slate-100 group">
+                        <span>ICP Smart Services</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-emerald-600"></i>
+                    </a>
+                    <a href="https://www.gdrfadubai.gov.ae" target="_blank" class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 hover:bg-emerald-50 hover:text-emerald-700 transition text-sm font-medium border border-slate-100 group">
+                        <span>GDRFA Dubai</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-emerald-600"></i>
+                    </a>
+                    <a href="https://www.mohre.gov.ae" target="_blank" class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 hover:bg-emerald-50 hover:text-emerald-700 transition text-sm font-medium border border-slate-100 group">
+                        <span>MOHRE / Labour Portal</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-emerald-600"></i>
+                    </a>
+                    <a href="https://selfcare.uaepass.ae" target="_blank" class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 hover:bg-emerald-50 hover:text-emerald-700 transition text-sm font-medium border border-slate-100 group">
+                        <span>UAE PASS</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-emerald-600"></i>
+                    </a>
+                    <a href="https://www.tasheel.ae" target="_blank" class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 hover:bg-emerald-50 hover:text-emerald-700 transition text-sm font-medium border border-slate-100 group">
+                        <span>Tasheel Services</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-emerald-600"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card 3: Internal Business Tools -->
+            <div class="service-card bg-white rounded-2xl shadow-sm border border-slate-200 p-5 flex flex-col">
+                <div class="flex items-center space-x-3 mb-4 pb-3 border-b border-slate-100">
+                    <div class="bg-indigo-50 text-indigo-600 p-2.5 rounded-xl text-lg">
+                        <i class="fa-solid fa-folder-open"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-900 text-base">INTERNAL BUSINESS TOOLS</h3>
+                        <p class="text-xs text-slate-500">Custom Workflows & Generators</p>
+                    </div>
+                </div>
+                <div class="space-y-2 flex-grow link-list">
+                    <a href="#" class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 hover:bg-indigo-50 hover:text-indigo-700 transition text-sm font-medium border border-slate-100 group">
+                        <span>Name Slip Generator</span>
+                        <i class="fa-solid fa-wrench text-xs text-slate-400 group-hover:text-indigo-600"></i>
+                    </a>
+                    <a href="#" class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 hover:bg-indigo-50 hover:text-indigo-700 transition text-sm font-medium border border-slate-100 group">
+                        <span>Rental Agreement Maker</span>
+                        <i class="fa-solid fa-wrench text-xs text-slate-400 group-hover:text-indigo-600"></i>
+                    </a>
+                    <a href="#" class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 hover:bg-indigo-50 hover:text-indigo-700 transition text-sm font-medium border border-slate-100 group">
+                        <span>Client Database</span>
+                        <i class="fa-solid fa-database text-xs text-slate-400 group-hover:text-indigo-600"></i>
+                    </a>
+                    <a href="#" class="flex items-center justify-between p-2.5 rounded-lg bg-slate-50 hover:bg-indigo-50 hover:text-indigo-700 transition text-sm font-medium border border-slate-100 group">
+                        <span>Digital Document Archive</span>
+                        <i class="fa-solid fa-box-archive text-xs text-slate-400 group-hover:text-indigo-600"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Quick Tags / Category Pills -->
+        <div class="mt-10 text-center">
+            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Tags & Categories:</p>
+            <div class="flex flex-wrap justify-center gap-2">
+                <span class="px-3 py-1 bg-white border border-slate-200 text-slate-600 text-xs rounded-full shadow-xs">Kerala Services</span>
+                <span class="px-3 py-1 bg-white border border-slate-200 text-slate-600 text-xs rounded-full shadow-xs">UAE Visa</span>
+                <span class="px-3 py-1 bg-white border border-slate-200 text-slate-600 text-xs rounded-full shadow-xs">Utilities</span>
+                <span class="px-3 py-1 bg-white border border-slate-200 text-slate-600 text-xs rounded-full shadow-xs">Docs</span>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500 mt-12">
+        <p>&copy; 2026 ATAVA Digital Services & Trading. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript for Live Search Filtering -->
+    <script>
+        function filterLinks() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let cards = document.getElementsByClassName('service-card');
+
+            for (let i = 0; i < cards.length; i++) {
+                let links = cards[i].getElementsByClassName('link-list')[0].getElementsByTagName('a');
+                let cardHasMatch = false;
+
+                for (let j = 0; j < links.length; j++) {
+                    let txtValue = links[j].textContent || links[j].innerText;
+                    if (txtValue.toLowerCase().indexOf(input) > -1) {
+                        links[j].style.display = "";
+                        cardHasMatch = true;
+                    } else {
+                        links[j].style.display = "none";
+                    }
+                }
+
+                // Show or hide the entire category card based on matches
+                if (cardHasMatch || input === "") {
+                    cards[i].style.display = "";
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+        }
+
+        function shareDashboard() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'ATAVA Dashboard',
+                    url: window.location.href
+                }).catch(console.error);
+            } else {
+                navigator.clipboard.writeText(window.location.href);
+                alert('Dashboard link copied to clipboard!');
+            }
+        }
+    </script>
+</body>
+</html>
