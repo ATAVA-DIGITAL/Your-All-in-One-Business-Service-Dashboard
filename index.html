@@ -3,342 +3,328 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ATAVA Digital Services & Trading - All-in-One Dashboard</title>
+    <title>ATAVA Digital Services & Trading - Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease-out, padding 0.3s ease;
+        .modal-backdrop {
+            background-color: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            transition: opacity 0.3s ease-in-out;
         }
-        .accordion-content.open {
-            max-height: 1200px;
+        .modal-box {
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease-in-out;
         }
-        .rotate-icon {
-            transition: transform 0.3s ease;
+        .modal-backdrop.hidden-modal {
+            opacity: 0;
+            pointer-events: none;
         }
-        .rotate-icon.active {
-            transform: rotate(180deg);
+        .modal-backdrop.hidden-modal .modal-box {
+            transform: scale(0.95) translateY(10px);
+            opacity: 0;
         }
     </style>
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col justify-between">
 
     <!-- Header / Navbar -->
-    <header class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-50">
+    <header class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center space-x-3">
                 <img src="image_6929e0.png" alt="ATAVA Logo" class="h-10 w-auto rounded object-contain">
                 <div>
                     <h1 class="font-bold text-lg text-slate-900 leading-tight">ATAVA Digital Services & Trading</h1>
-                    <p class="text-xs text-slate-500 uppercase tracking-wider">One Stop Digital Hub</p>
+                    <p class="text-xs text-amber-600 font-semibold uppercase tracking-wider">One Stop Digital Hub</p>
                 </div>
             </div>
-            <div class="flex items-center space-x-3">
-                <button onclick="shareDashboard()" class="flex items-center space-x-2 bg-blue-600 text-white text-xs px-3.5 py-2 rounded-lg hover:bg-blue-700 transition shadow-sm">
-                    <i class="fa-solid fa-share-nodes"></i>
-                    <span>Share</span>
-                </button>
-            </div>
+            <button onclick="shareDashboard()" class="flex items-center space-x-2 bg-slate-900 text-amber-400 border border-amber-500/30 text-xs px-4 py-2 rounded-xl hover:bg-slate-800 transition shadow-sm font-semibold">
+                <i class="fa-solid fa-share-nodes"></i>
+                <span>Share</span>
+            </button>
         </div>
     </header>
 
-    <!-- Main Content Container -->
+    <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full">
         
-        <!-- Search Bar Section -->
-        <div class="text-center mb-8">
-            <h2 class="text-2xl font-bold text-slate-900 mb-3">All-in-One Business & Service Dashboard</h2>
-            <p class="text-sm text-slate-500 mb-5">Click on any category to access official links and portals.</p>
+        <!-- Search Section -->
+        <div class="text-center mb-10">
+            <h2 class="text-2xl font-bold text-slate-900 mb-2">Service Portals & Quick Access</h2>
+            <p class="text-sm text-slate-500 mb-6">Select a category to view all verified government and business links.</p>
+            
             <div class="max-w-xl mx-auto relative">
                 <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </span>
-                <input type="text" id="searchInput" onkeyup="filterLinks()" placeholder="Search services (e.g. ICP, GDRFA, Medical, NORKA)..." 
-                    class="w-full pl-11 pr-4 py-3 bg-white border border-slate-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+                <input type="text" id="searchInput" onkeyup="filterQuickSearch()" placeholder="Search services (e.g. ICP, GDRFA, Medical, NORKA)..." 
+                    class="w-full pl-11 pr-4 py-3 bg-white border border-slate-300 rounded-2xl shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent text-sm">
             </div>
         </div>
 
-        <!-- Categories Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="categoriesContainer">
+        <!-- Dashboard Grid Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="dashboardGrid">
 
-            <!-- Category 1: UAE Immigration & Residency Portals -->
-            <div class="service-card bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden transition hover:shadow-md">
-                <button onclick="toggleAccordion('cat1', 'icon1')" class="w-full p-5 flex items-center justify-between text-left focus:outline-none bg-white hover:bg-slate-50 transition">
-                    <div class="flex items-center space-x-3.5">
-                        <div class="bg-emerald-50 text-emerald-600 p-3 rounded-xl text-xl">
-                            <i class="fa-solid fa-passport"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-slate-900 text-base">UAE IMMIGRATION & RESIDENCY</h3>
-                            <p class="text-xs text-slate-500">ICP, GDRFA & Visa Services</p>
-                        </div>
+            <!-- Card 1 -->
+            <div onclick="openCategory('cat-icp')" class="service-card cursor-pointer bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-xl hover:border-amber-400/50 transition-all duration-300 flex items-center justify-between group">
+                <div class="flex items-center space-x-4">
+                    <div class="bg-amber-50 text-amber-600 p-3.5 rounded-2xl text-2xl group-hover:bg-amber-500 group-hover:text-white transition duration-300">
+                        <i class="fa-solid fa-passport"></i>
                     </div>
-                    <i id="icon1" class="fa-solid fa-chevron-down text-slate-400 rotate-icon"></i>
-                </button>
-
-                <div id="cat1" class="accordion-content border-t border-slate-100 bg-slate-50/50 px-5">
-                    <div class="py-4 space-y-2 link-list">
-                        <a href="https://beta.smartservices.icp.gov.ae/echannels/web/client/guest/index.html#/dashboard" target="_blank" class="flex items-center justify-between p-2.5 rounded-lg bg-white hover:bg-emerald-50 hover:text-emerald-700 transition text-sm font-medium border border-slate-200 group">
-                            <span>ICP Smart Services Dashboard</span>
-                            <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-emerald-600"></i>
-                        </a>
-                        <a href="https://beta.smartservices.icp.gov.ae/echannels/web/client/guest/index.html#/goldenResidencyIssueVisa/request/1104/step1?administrativeRegionId=1&withException=false" target="_blank" class="flex items-center justify-between p-2.5 rounded-lg bg-white hover:bg-emerald-50 hover:text-emerald-700 transition text-sm font-medium border border-slate-200 group">
-                            <span>Golden Visa - Entry Permit</span>
-                            <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-emerald-600"></i>
-                        </a>
-                        <a href="https://cc.icp.gov.ae/web/landing" target="_blank" class="flex items-center justify-between p-2.5 rounded-lg bg-white hover:bg-emerald-50 hover:text-emerald-700 transition text-sm font-medium border border-slate-200 group">
-                            <span>ICP Complaints Portal</span>
-                            <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-emerald-600"></i>
-                        </a>
-                        <a href="https://smart.gdrfad.gov.ae/en/" target="_blank" class="flex items-center justify-between p-2.5 rounded-lg bg-white hover:bg-emerald-50 hover:text-emerald-700 transition text-sm font-medium border border-slate-200 group">
-                            <span>Dubai GDRFA Portal</span>
-                            <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-emerald-600"></i>
-                        </a>
-                        <a href="https://smart.gdrfad.gov.ae/Public_Th/StatusInquiry_New.aspx" target="_blank" class="flex items-center justify-between p-2.5 rounded-lg bg-white hover:bg-emerald-50 hover:text-emerald-700 transition text-sm font-medium border border-slate-200 group">
-                            <span>GDRFA Visa Status Inquiry</span>
-                            <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-emerald-600"></i>
-                        </a>
+                    <div>
+                        <h3 class="font-bold text-slate-900 text-base group-hover:text-amber-600 transition">UAE IMMIGRATION</h3>
+                        <p class="text-xs text-slate-500">ICP, GDRFA & Visa Status</p>
                     </div>
+                </div>
+                <div class="text-slate-300 group-hover:text-amber-500 group-hover:translate-x-1 transition duration-300">
+                    <i class="fa-solid fa-circle-arrow-right text-xl"></i>
                 </div>
             </div>
 
-            <!-- Category 2: Federal & Government Portals -->
-            <div class="service-card bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden transition hover:shadow-md">
-                <button onclick="toggleAccordion('cat2', 'icon2')" class="w-full p-5 flex items-center justify-between text-left focus:outline-none bg-white hover:bg-slate-50 transition">
-                    <div class="flex items-center space-x-3.5">
-                        <div class="bg-blue-50 text-blue-600 p-3 rounded-xl text-xl">
-                            <i class="fa-solid fa-building-columns"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-slate-900 text-base">UAE FEDERAL & MINISTRIES</h3>
-                            <p class="text-xs text-slate-500">MOHRE, MOI, MOFA & MOJ</p>
-                        </div>
+            <!-- Card 2 -->
+            <div onclick="openCategory('cat-federal')" class="service-card cursor-pointer bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-xl hover:border-amber-400/50 transition-all duration-300 flex items-center justify-between group">
+                <div class="flex items-center space-x-4">
+                    <div class="bg-blue-50 text-blue-600 p-3.5 rounded-2xl text-2xl group-hover:bg-blue-600 group-hover:text-white transition duration-300">
+                        <i class="fa-solid fa-building-columns"></i>
                     </div>
-                    <i id="icon2" class="fa-solid fa-chevron-down text-slate-400 rotate-icon"></i>
-                </button>
-
-                <div id="cat2" class="accordion-content border-t border-slate-100 bg-slate-50/50 px-5">
-                    <div class="py-4 space-y-2 link-list">
-                        <a href="https://support.mohre.gov.ae/Support/Register" target="_blank" class="flex items-center justify-between p-2.5 rounded-lg bg-white hover:bg-blue-50 hover:text-blue-700 transition text-sm font-medium border border-slate-200 group">
-                            <span>MOHRE Complaints Registration</span>
-                            <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-blue-600"></i>
-                        </a>
-                        <a href="https://www.moi.gov.ae/en/home" target="_blank" class="flex items-center justify-between p-2.5 rounded-lg bg-white hover:bg-blue-50 hover:text-blue-700 transition text-sm font-medium border border-slate-200 group">
-                            <span>Ministry of Interior (MOI)</span>
-                            <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-blue-600"></i>
-                        </a>
-                        <a href="https://www.mofa.gov.ae/Account/Login?returnUrl=%2Fen%2FServices%2FForms%2Fattestation" target="_blank" class="flex items-center justify-between p-2.5 rounded-lg bg-white hover:bg-blue-50 hover:text-blue-700 transition text-sm font-medium border border-slate-200 group">
-                            <span>MOFA Document Attestation</span>
-                            <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-blue-600"></i>
-                        </a>
-                        <a href="https://www.moj.gov.ae/en/home.aspx" target="_blank" class="flex items-center justify-between p-2.5 rounded-lg bg-white hover:bg-blue-50 hover:text-blue-700 transition text-sm font-medium border border-slate-200 group">
-                            <span>Ministry of Justice (MOJ)</span>
-                            <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-blue-600"></i>
-                        </a>
-                        <a href="https://gpssa.gov.ae/employer/login" target="_blank" class="flex items-center justify-between p-2.5 rounded-lg bg-white hover:bg-blue-50 hover:text-blue-700 transition text-sm font-medium border border-slate-200 group">
-                            <span>GPSSA Pension Portal</span>
-                            <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-blue-600"></i>
-                        </a>
+                    <div>
+                        <h3 class="font-bold text-slate-900 text-base group-hover:text-blue-600 transition">FEDERAL & MINISTRIES</h3>
+                        <p class="text-xs text-slate-500">MOHRE, MOI, MOFA & MOJ</p>
                     </div>
+                </div>
+                <div class="text-slate-300 group-hover:text-blue-600 group-hover:translate-x-1 transition duration-300">
+                    <i class="fa-solid fa-circle-arrow-right text-xl"></i>
                 </div>
             </div>
 
-            <!-- Category 3: Transport, Tolls & Traffic Portals -->
-            <div class="service-card bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden transition hover:shadow-md">
-                <button onclick="toggleAccordion('cat3', 'icon3')" class="w-full p-5 flex items-center justify-between text-left focus:outline-none bg-white hover:bg-slate-50 transition">
-                    <div class="flex items-center space-x-3.5">
-                        <div class="bg-amber-50 text-amber-600 p-3 rounded-xl text-xl">
-                            <i class="fa-solid fa-car"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-slate-900 text-base">TRAFFIC & TRANSPORTATION</h3>
-                            <p class="text-xs text-slate-500">Salik, Darb, RTA, EVG & AD Police</p>
-                        </div>
+            <!-- Card 3 -->
+            <div onclick="openCategory('cat-traffic')" class="service-card cursor-pointer bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-xl hover:border-amber-400/50 transition-all duration-300 flex items-center justify-between group">
+                <div class="flex items-center space-x-4">
+                    <div class="bg-emerald-50 text-emerald-600 p-3.5 rounded-2xl text-2xl group-hover:bg-emerald-600 group-hover:text-white transition duration-300">
+                        <i class="fa-solid fa-car"></i>
                     </div>
-                    <i id="icon3" class="fa-solid fa-chevron-down text-slate-400 rotate-icon"></i>
-                </button>
-
-                <div id="cat3" class="accordion-content border-t border-slate-100 bg-slate-50/50 px-5">
-                    <div class="py-4 space-y-2 link-list">
-                        <a href="https://es.adpolice.gov.ae/trafficservices/Registration/Login.aspx?Culture=en/Registration/Login.aspx Culture=en" target="_blank" class="flex items-center justify-between p-2.5 rounded-lg bg-white hover:bg-amber-50 hover:text-amber-700 transition text-sm font-medium border border-slate-200 group">
-                            <span>Abu Dhabi Police Traffic Services</span>
-                            <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-amber-600"></i>
-                        </a>
-                        <a href="https://darb.qmobility.ae/RucWeb/login" target="_blank" class="flex items-center justify-between p-2.5 rounded-lg bg-white hover:bg-amber-50 hover:text-amber-700 transition text-sm font-medium border border-slate-200 group">
-                            <span>Darb Toll Gate (Abu Dhabi)</span>
-                            <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-amber-600"></i>
-                        </a>
-                        <a href="https://www.salik.ae/en/" target="_blank" class="flex items-center justify-between p-2.5 rounded-lg bg-white hover:bg-amber-50 hover:text-amber-700 transition text-sm font-medium border border-slate-200 group">
-                            <span>Dubai Salik Portal</span>
-                            <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-amber-600"></i>
-                        </a>
-                        <a href="https://www.rta.ae/wps/portal/rta/ae/public-transport/pay-fines-public-transport?lang=en" target="_blank" class="flex items-center justify-between p-2.5 rounded-lg bg-white hover:bg-amber-50 hover:text-amber-700 transition text-sm font-medium border border-slate-200 group">
-                            <span>RTA Dubai Fines Payment</span>
-                            <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-amber-600"></i>
-                        </a>
-                        <a href="https://evg.ae/user-management/login-individual" target="_blank" class="flex items-center justify-between p-2.5 rounded-lg bg-white hover:bg-amber-50 hover:text-amber-700 transition text-sm font-medium border border-slate-200 group">
-                            <span>Emirates Vehicle Gate (EVG)</span>
-                            <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-amber-600"></i>
-                        </a>
-                        <a href="https://dservices.moei.gov.ae/MLS/Online/Default/Home.aspx?param=VUoGjVeUY3cdzvsrLD2l1w%3d%3d" target="_blank" class="flex items-center justify-between p-2.5 rounded-lg bg-white hover:bg-amber-50 hover:text-amber-700 transition text-sm font-medium border border-slate-200 group">
-                            <span>Federal Transport Authority (FTA)</span>
-                            <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-amber-600"></i>
-                        </a>
+                    <div>
+                        <h3 class="font-bold text-slate-900 text-base group-hover:text-emerald-600 transition">TRAFFIC & TRANSPORT</h3>
+                        <p class="text-xs text-slate-500">Salik, Darb, RTA, EVG & Fines</p>
                     </div>
+                </div>
+                <div class="text-slate-300 group-hover:text-emerald-600 group-hover:translate-x-1 transition duration-300">
+                    <i class="fa-solid fa-circle-arrow-right text-xl"></i>
                 </div>
             </div>
 
-            <!-- Category 4: Health & Medical Services -->
-            <div class="service-card bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden transition hover:shadow-md">
-                <button onclick="toggleAccordion('cat4', 'icon4')" class="w-full p-5 flex items-center justify-between text-left focus:outline-none bg-white hover:bg-slate-50 transition">
-                    <div class="flex items-center space-x-3.5">
-                        <div class="bg-rose-50 text-rose-600 p-3 rounded-xl text-xl">
-                            <i class="fa-solid fa-heart-pulse"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-slate-900 text-base">HEALTH & MEDICAL SERVICES</h3>
-                            <p class="text-xs text-slate-500">MOHAP & EHS Fitness Cards</p>
-                        </div>
+            <!-- Card 4 -->
+            <div onclick="openCategory('cat-health')" class="service-card cursor-pointer bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-xl hover:border-amber-400/50 transition-all duration-300 flex items-center justify-between group">
+                <div class="flex items-center space-x-4">
+                    <div class="bg-rose-50 text-rose-600 p-3.5 rounded-2xl text-2xl group-hover:bg-rose-600 group-hover:text-white transition duration-300">
+                        <i class="fa-solid fa-heart-pulse"></i>
                     </div>
-                    <i id="icon4" class="fa-solid fa-chevron-down text-slate-400 rotate-icon"></i>
-                </button>
-
-                <div id="cat4" class="accordion-content border-t border-slate-100 bg-slate-50/50 px-5">
-                    <div class="py-4 space-y-2 link-list">
-                        <a href="https://smartforms.mohap.gov.ae/GSC/AppPages/GSCApplication?rid=79fd18e7-a809-4f2a-b7bd-aa45fe2671b8" target="_blank" class="flex items-center justify-between p-2.5 rounded-lg bg-white hover:bg-rose-50 hover:text-rose-700 transition text-sm font-medium border border-slate-200 group">
-                            <span>MOHAP Smart Forms</span>
-                            <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-rose-600"></i>
-                        </a>
-                        <a href="https://fitness.ehs.gov.ae/OnlinePortal/en/Account/Login" target="_blank" class="flex items-center justify-between p-2.5 rounded-lg bg-white hover:bg-rose-50 hover:text-rose-700 transition text-sm font-medium border border-slate-200 group">
-                            <span>EHS Medical Fitness Portal</span>
-                            <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-rose-600"></i>
-                        </a>
-                        <a href="https://hcr.ehs.gov.ae/OnlinePortal/en/" target="_blank" class="flex items-center justify-between p-2.5 rounded-lg bg-white hover:bg-rose-50 hover:text-rose-700 transition text-sm font-medium border border-slate-200 group">
-                            <span>EHS Health Card Services</span>
-                            <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-rose-600"></i>
-                        </a>
+                    <div>
+                        <h3 class="font-bold text-slate-900 text-base group-hover:text-rose-600 transition">HEALTH & MEDICAL</h3>
+                        <p class="text-xs text-slate-500">MOHAP & EHS Fitness Cards</p>
                     </div>
+                </div>
+                <div class="text-slate-300 group-hover:text-rose-600 group-hover:translate-x-1 transition duration-300">
+                    <i class="fa-solid fa-circle-arrow-right text-xl"></i>
                 </div>
             </div>
 
-            <!-- Category 5: Emirate & Local Services -->
-            <div class="service-card bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden transition hover:shadow-md">
-                <button onclick="toggleAccordion('cat5', 'icon5')" class="w-full p-5 flex items-center justify-between text-left focus:outline-none bg-white hover:bg-slate-50 transition">
-                    <div class="flex items-center space-x-3.5">
-                        <div class="bg-indigo-50 text-indigo-600 p-3 rounded-xl text-xl">
-                            <i class="fa-solid fa-bolt"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-slate-900 text-base">EMIRATE & UTILITIES</h3>
-                            <p class="text-xs text-slate-500">UAQ Portal, Civil Defense & FEWA</p>
-                        </div>
+            <!-- Card 5 -->
+            <div onclick="openCategory('cat-utilities')" class="service-card cursor-pointer bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-xl hover:border-amber-400/50 transition-all duration-300 flex items-center justify-between group">
+                <div class="flex items-center space-x-4">
+                    <div class="bg-indigo-50 text-indigo-600 p-3.5 rounded-2xl text-2xl group-hover:bg-indigo-600 group-hover:text-white transition duration-300">
+                        <i class="fa-solid fa-bolt"></i>
                     </div>
-                    <i id="icon5" class="fa-solid fa-chevron-down text-slate-400 rotate-icon"></i>
-                </button>
-
-                <div id="cat5" class="accordion-content border-t border-slate-100 bg-slate-50/50 px-5">
-                    <div class="py-4 space-y-2 link-list">
-                        <a href="https://portal.uaq.ae/" target="_blank" class="flex items-center justify-between p-2.5 rounded-lg bg-white hover:bg-indigo-50 hover:text-indigo-700 transition text-sm font-medium border border-slate-200 group">
-                            <span>Umm Al Quwain Government Portal</span>
-                            <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-indigo-600"></i>
-                        </a>
-                        <a href="https://etihadwe.ae/en/Pages/default.aspx" target="_blank" class="flex items-center justify-between p-2.5 rounded-lg bg-white hover:bg-indigo-50 hover:text-indigo-700 transition text-sm font-medium border border-slate-200 group">
-                            <span>Etihad WE / FEWA UAQ</span>
-                            <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-indigo-600"></i>
-                        </a>
-                        <a href="https://cdservices.moi.gov.ae/auth/login" target="_blank" class="flex items-center justify-between p-2.5 rounded-lg bg-white hover:bg-indigo-50 hover:text-indigo-700 transition text-sm font-medium border border-slate-200 group">
-                            <span>Civil Defense Online Services</span>
-                            <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-indigo-600"></i>
-                        </a>
+                    <div>
+                        <h3 class="font-bold text-slate-900 text-base group-hover:text-indigo-600 transition">EMIRATES & UTILITIES</h3>
+                        <p class="text-xs text-slate-500">UAQ Portal, Civil Defense, FEWA</p>
                     </div>
+                </div>
+                <div class="text-slate-300 group-hover:text-indigo-600 group-hover:translate-x-1 transition duration-300">
+                    <i class="fa-solid fa-circle-arrow-right text-xl"></i>
                 </div>
             </div>
 
-            <!-- Category 6: Kerala & NRK Portals -->
-            <div class="service-card bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden transition hover:shadow-md">
-                <button onclick="toggleAccordion('cat6', 'icon6')" class="w-full p-5 flex items-center justify-between text-left focus:outline-none bg-white hover:bg-slate-50 transition">
-                    <div class="flex items-center space-x-3.5">
-                        <div class="bg-purple-50 text-purple-600 p-3 rounded-xl text-xl">
-                            <i class="fa-solid fa-tree"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-slate-900 text-base">KERALA & NORKA SERVICES</h3>
-                            <p class="text-xs text-slate-500">Non-Resident Keralite Portals</p>
-                        </div>
+            <!-- Card 6 -->
+            <div onclick="openCategory('cat-kerala')" class="service-card cursor-pointer bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-xl hover:border-amber-400/50 transition-all duration-300 flex items-center justify-between group">
+                <div class="flex items-center space-x-4">
+                    <div class="bg-purple-50 text-purple-600 p-3.5 rounded-2xl text-2xl group-hover:bg-purple-600 group-hover:text-white transition duration-300">
+                        <i class="fa-solid fa-tree"></i>
                     </div>
-                    <i id="icon6" class="fa-solid fa-chevron-down text-slate-400 rotate-icon"></i>
-                </button>
-
-                <div id="cat6" class="accordion-content border-t border-slate-100 bg-slate-50/50 px-5">
-                    <div class="py-4 space-y-2 link-list">
-                        <a href="https://id.norkaroots.kerala.gov.in/application-history" target="_blank" class="flex items-center justify-between p-2.5 rounded-lg bg-white hover:bg-purple-50 hover:text-purple-700 transition text-sm font-medium border border-slate-200 group">
-                            <span>NORKA Roots Application Portal</span>
-                            <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-purple-600"></i>
-                        </a>
+                    <div>
+                        <h3 class="font-bold text-slate-900 text-base group-hover:text-purple-600 transition">KERALA & NORKA</h3>
+                        <p class="text-xs text-slate-500">Non-Resident Keralite Portals</p>
                     </div>
+                </div>
+                <div class="text-slate-300 group-hover:text-purple-600 group-hover:translate-x-1 transition duration-300">
+                    <i class="fa-solid fa-circle-arrow-right text-xl"></i>
                 </div>
             </div>
 
         </div>
     </main>
 
+    <!-- Modal Popup Box Container -->
+    <div id="modalBackdrop" class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center p-4 hidden-modal" onclick="closeModal(event)">
+        <div class="modal-box bg-white rounded-3xl shadow-2xl border border-slate-200 max-w-xl w-full p-6 relative overflow-hidden" onclick="event.stopPropagation()">
+            
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-100">
+                <div class="flex items-center space-x-3">
+                    <div id="modalIcon" class="p-2.5 rounded-xl text-xl bg-amber-50 text-amber-600">
+                        <i class="fa-solid fa-folder"></i>
+                    </div>
+                    <div>
+                        <h3 id="modalTitle" class="font-bold text-slate-900 text-lg">Category Title</h3>
+                        <p id="modalSubtitle" class="text-xs text-slate-500">Official Links & Portals</p>
+                    </div>
+                </div>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-700 bg-slate-100 p-2 rounded-full w-8 h-8 flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body Links List -->
+            <div id="modalContent" class="space-y-2.5 max-h-[60vh] overflow-y-auto pr-1">
+                <!-- Links dynamically inserted via Javascript -->
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500 mt-12">
         <p>&copy; 2026 ATAVA Digital Services & Trading. All rights reserved.</p>
     </footer>
 
-    <!-- JavaScript logic -->
+    <!-- JavaScript Data & Logic -->
     <script>
-        function toggleAccordion(id, iconId) {
-            const content = document.getElementById(id);
-            const icon = document.getElementById(iconId);
-            
-            if (content.classList.contains('open')) {
-                content.classList.remove('open');
-                icon.classList.remove('active');
-            } else {
-                content.classList.add('open');
-                icon.classList.add('active');
+        const categoryData = {
+            'cat-icp': {
+                title: 'UAE IMMIGRATION & RESIDENCY',
+                subtitle: 'ICP Smart Services, GDRFA & Status Trackers',
+                iconClass: 'fa-passport',
+                colorClass: 'bg-amber-50 text-amber-600',
+                links: [
+                    { name: 'ICP Smart Services Dashboard', url: 'https://beta.smartservices.icp.gov.ae/echannels/web/client/guest/index.html#/dashboard' },
+                    { name: 'Golden Visa - Entry Permit', url: 'https://beta.smartservices.icp.gov.ae/echannels/web/client/guest/index.html#/goldenResidencyIssueVisa/request/1104/step1?administrativeRegionId=1&withException=false' },
+                    { name: 'ICP Complaints Portal', url: 'https://cc.icp.gov.ae/web/landing' },
+                    { name: 'Dubai GDRFA Portal', url: 'https://smart.gdrfad.gov.ae/en/' },
+                    { name: 'GDRFA Visa Status Inquiry', url: 'https://smart.gdrfad.gov.ae/Public_Th/StatusInquiry_New.aspx' }
+                ]
+            },
+            'cat-federal': {
+                title: 'FEDERAL & MINISTRIES',
+                subtitle: 'MOHRE, MOI, MOFA & Pension Services',
+                iconClass: 'fa-building-columns',
+                colorClass: 'bg-blue-50 text-blue-600',
+                links: [
+                    { name: 'MOHRE Complaints Registration', url: 'https://support.mohre.gov.ae/Support/Register' },
+                    { name: 'Ministry of Interior (MOI)', url: 'https://www.moi.gov.ae/en/home' },
+                    { name: 'MOFA Document Attestation', url: 'https://www.mofa.gov.ae/Account/Login?returnUrl=%2Fen%2FServices%2FForms%2Fattestation' },
+                    { name: 'Ministry of Justice (MOJ)', url: 'https://www.moj.gov.ae/en/home.aspx' },
+                    { name: 'GPSSA Pension Portal', url: 'https://gpssa.gov.ae/employer/login' }
+                ]
+            },
+            'cat-traffic': {
+                title: 'TRAFFIC & TRANSPORTATION',
+                subtitle: 'Salik, Darb, RTA, EVG & Fines Payment',
+                iconClass: 'fa-car',
+                colorClass: 'bg-emerald-50 text-emerald-600',
+                links: [
+                    { name: 'Abu Dhabi Police Traffic Services', url: 'https://es.adpolice.gov.ae/trafficservices/Registration/Login.aspx Culture=en' },
+                    { name: 'Darb Toll Gate (Abu Dhabi)', url: 'https://darb.qmobility.ae/RucWeb/login' },
+                    { name: 'Dubai Salik Portal', url: 'https://www.salik.ae/en/' },
+                    { name: 'RTA Dubai Fines Payment', url: 'https://www.rta.ae/wps/portal/rta/ae/public-transport/pay-fines-public-transport?lang=en' },
+                    { name: 'Emirates Vehicle Gate (EVG)', url: 'https://evg.ae/user-management/login-individual' },
+                    { name: 'Federal Transport Authority (FTA)', url: 'https://dservices.moei.gov.ae/MLS/Online/Default/Home.aspx?param=VUoGjVeUY3cdzvsrLD2l1w%3d%3d' }
+                ]
+            },
+            'cat-health': {
+                title: 'HEALTH & MEDICAL SERVICES',
+                subtitle: 'MOHAP Forms & EHS Fitness Portals',
+                iconClass: 'fa-heart-pulse',
+                colorClass: 'bg-rose-50 text-rose-600',
+                links: [
+                    { name: 'MOHAP Smart Forms', url: 'https://smartforms.mohap.gov.ae/GSC/AppPages/GSCApplication?rid=79fd18e7-a809-4f2a-b7bd-aa45fe2671b8' },
+                    { name: 'EHS Medical Fitness Portal', url: 'https://fitness.ehs.gov.ae/OnlinePortal/en/Account/Login' },
+                    { name: 'EHS Health Card Services', url: 'https://hcr.ehs.gov.ae/OnlinePortal/en/' }
+                ]
+            },
+            'cat-utilities': {
+                title: 'EMIRATES & UTILITIES',
+                subtitle: 'Umm Al Quwain, Civil Defense & Electricity',
+                iconClass: 'fa-bolt',
+                colorClass: 'bg-indigo-50 text-indigo-600',
+                links: [
+                    { name: 'Umm Al Quwain Government Portal', url: 'https://portal.uaq.ae/' },
+                    { name: 'Etihad WE / FEWA UAQ', url: 'https://etihadwe.ae/en/Pages/default.aspx' },
+                    { name: 'Civil Defense Online Services', url: 'https://cdservices.moi.gov.ae/auth/login' }
+                ]
+            },
+            'cat-kerala': {
+                title: 'KERALA & NORKA SERVICES',
+                subtitle: 'Non-Resident Keralite Official Portals',
+                iconClass: 'fa-tree',
+                colorClass: 'bg-purple-50 text-purple-600',
+                links: [
+                    { name: 'NORKA Roots Application History', url: 'https://id.norkaroots.kerala.gov.in/application-history' }
+                ]
             }
+        };
+
+        function openCategory(key) {
+            const data = categoryData[key];
+            if (!data) return;
+
+            document.getElementById('modalTitle').innerText = data.title;
+            document.getElementById('modalSubtitle').innerText = data.subtitle;
+            
+            const iconContainer = document.getElementById('modalIcon');
+            iconContainer.className = `p-2.5 rounded-xl text-xl ${data.colorClass}`;
+            iconContainer.innerHTML = `<i class="fa-solid ${data.iconClass}"></i>`;
+
+            const contentContainer = document.getElementById('modalContent');
+            contentContainer.innerHTML = '';
+
+            data.links.forEach(link => {
+                const a = document.createElement('a');
+                a.href = link.url;
+                a.target = '_blank';
+                a.className = 'flex items-center justify-between p-3 rounded-xl bg-slate-50 hover:bg-amber-50 hover:border-amber-300 transition text-sm font-medium border border-slate-200 group';
+                a.innerHTML = `
+                    <span class="text-slate-800 group-hover:text-amber-800 font-semibold">${link.name}</span>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-xs text-slate-400 group-hover:text-amber-600"></i>
+                `;
+                contentContainer.appendChild(a);
+            });
+
+            const backdrop = document.getElementById('modalBackdrop');
+            backdrop.classList.remove('hidden-modal');
         }
 
-        function filterLinks() {
+        function closeModal() {
+            const backdrop = document.getElementById('modalBackdrop');
+            backdrop.classList.add('hidden-modal');
+        }
+
+        function filterQuickSearch() {
             let input = document.getElementById('searchInput').value.toLowerCase();
             let cards = document.getElementsByClassName('service-card');
 
-            for (let i = 0; i < cards.length; i++) {
-                let links = cards[i].getElementsByClassName('link-list')[0].getElementsByTagName('a');
-                let accordionContent = cards[i].getElementsByClassName('accordion-content')[0];
-                let icon = cards[i].getElementsByClassName('rotate-icon')[0];
-                let cardHasMatch = false;
+            if (input === "") {
+                for (let card of cards) card.style.display = "";
+                return;
+            }
 
-                for (let j = 0; j < links.length; j++) {
-                    let txtValue = links[j].textContent || links[j].innerText;
-                    if (txtValue.toLowerCase().indexOf(input) > -1) {
-                        links[j].style.display = "";
-                        cardHasMatch = true;
-                    } else {
-                        links[j].style.display = "none";
-                    }
-                }
-
-                if (input !== "") {
-                    if (cardHasMatch) {
-                        cards[i].style.display = "";
-                        accordionContent.classList.add('open');
-                        icon.classList.add('active');
-                    } else {
-                        cards[i].style.display = "none";
-                    }
-                } else {
-                    cards[i].style.display = "";
-                    accordionContent.classList.remove('open');
-                    icon.classList.remove('active');
-                    for (let j = 0; j < links.length; j++) {
-                        links[j].style.display = "";
-                    }
+            for (let key in categoryData) {
+                let cat = categoryData[key];
+                let hasMatch = cat.title.toLowerCase().includes(input) || 
+                               cat.subtitle.toLowerCase().includes(input) ||
+                               cat.links.some(l => l.name.toLowerCase().includes(input));
+                
+                // Show/hide grid cards based on match
+                let matchingCard = Array.from(cards).find(c => c.getAttribute('onclick').includes(key));
+                if (matchingCard) {
+                    matchingCard.style.display = hasMatch ? "" : "none";
                 }
             }
         }
@@ -346,7 +332,7 @@
         function shareDashboard() {
             if (navigator.share) {
                 navigator.share({
-                    title: 'ATAVA Dashboard',
+                    title: 'ATAVA Services Dashboard',
                     url: window.location.href
                 }).catch(console.error);
             } else {
